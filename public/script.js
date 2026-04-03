@@ -1,26 +1,46 @@
 /* ═══════════════════════════════════════════
-   Easy Day Moving — Final Script
+   Easy Day Moving — Dynamic Funnel Script
+   Custom flows per service type
    ═══════════════════════════════════════════ */
 
 (function () {
   'use strict';
 
+  // ── Flow definitions: each service gets its own step sequence ──
+  var FLOWS = {
+    apartment:      ['service', 'apt-size', 'addresses', 'date', 'apt-access', 'special-packing', 'contact'],
+    house:          ['service', 'house-size', 'addresses', 'date', 'house-access', 'special-packing', 'contact'],
+    'small-office': ['service', 'office-size', 'addresses', 'date', 'office-access', 'office-items', 'contact'],
+    packing:        ['service', 'packing-what', 'address-single', 'packing-size', 'date', 'contact'],
+    'junk-removal': ['service', 'junk-type', 'junk-amount', 'address-single', 'date', 'contact'],
+    'small-move':   ['service', 'small-items', 'addresses', 'date', 'move-access', 'contact']
+  };
+
+  var DEFAULT_FLOW = ['service'];
+
+  // ── DOM refs ──
   var form = document.getElementById('lead-form');
-  var steps = Array.from(document.querySelectorAll('.step'));
+  var allSteps = Array.from(document.querySelectorAll('.fstep'));
   var nextBtn = document.getElementById('next-btn');
   var prevBtn = document.getElementById('prev-btn');
   var submitBtn = document.getElementById('submit-btn');
   var errorBox = document.getElementById('form-error');
   var progressFill = document.getElementById('progress-bar-fill');
-  var progressStepText = document.getElementById('progress-step-text');
+  var progressText = document.getElementById('progress-step-text');
   var resultCard = document.getElementById('result-card');
   var resultTier = document.getElementById('result-tier');
   var resultRange = document.getElementById('result-range');
   var resultGreeting = document.getElementById('result-greeting');
   var phoneInput = document.getElementById('phone-input');
 
-  var currentStep = 0;
-  var totalSteps = steps.length;
+  var currentFlow = DEFAULT_FLOW;
+  var currentIndex = 0;
+  var selectedService = null;
+
+  // ── Helpers ──
+  function getStepEl(sid) {
+    return document.querySelector('.fstep[data-sid="' + sid + '"]');
+  }
 
   function trackEvent(name, data) {
     if (typeof gtag === 'function') gtag('event', name, data || {});
@@ -28,90 +48,173 @@
     if (window.dataLayer) window.dataLayer.push({ event: name, ...data });
   }
 
+  // ── Progress ──
   function updateProgress() {
-    var pct = ((currentStep + 1) / totalSteps) * 100;
+    var total = currentFlow.length;
+    var pct = ((currentIndex + 1) / total) * 100;
     progressFill.style.width = pct + '%';
-    progressStepText.textContent = 'Step ' + (currentStep + 1) + ' of ' + totalSteps;
-    prevBtn.disabled = currentStep === 0;
-    nextBtn.classList.toggle('hidden', currentStep === totalSteps - 1);
-    submitBtn.classList.toggle('hidden', currentStep !== totalSteps - 1);
+    progressText.textContent = 'Step ' + (currentIndex + 1) + ' of ' + total;
+
+    prevBtn.disabled = currentIndex === 0;
+    var isLast = currentIndex === total - 1;
+    nextBtn.classList.toggle('hidden', isLast);
+    submitBtn.classList.toggle('hidden', !isLast);
   }
 
+  // ── Show step ──
   function showStep(index) {
-    steps.forEach(function (s, i) { s.classList.toggle('active', i === index); });
-    currentStep = index;
+    allSteps.forEach(function (s) { s.classList.remove('active'); });
+    var sid = currentFlow[index];
+    var el = getStepEl(sid);
+    if (el) el.classList.add('active');
+    currentIndex = index;
     errorBox.textContent = '';
     updateProgress();
+
     if (window.innerWidth < 768) {
       var card = document.querySelector('.hero-card');
       if (card) setTimeout(function () { card.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 80);
     }
-    trackEvent('funnel_step_view', { step: index + 1 });
+
+    trackEvent('funnel_step_view', { step: index + 1, sid: sid });
   }
 
-  function getStepFields(step) {
-    return Array.from(step.querySelectorAll('input[required], select[required]'));
-  }
+  // ── Validate current step ──
+  function validateCurrentStep() {
+    var sid = currentFlow[currentIndex];
+    var el = getStepEl(sid);
+    if (!el) return true;
 
-  function validateStep(idx) {
-    var step = steps[idx];
-    var fields = getStepFields(step);
+    var fields = Array.from(el.querySelectorAll('input[required], select[required]'));
     for (var i = 0; i < fields.length; i++) {
       if (!fields[i].value.trim()) {
-        var msgs = { moveType: 'Please select a service.', moveSize: 'Please select a size.', fromAddress: 'Please enter your current address.', toAddress: 'Please enter your new address.', moveDate: 'Please choose a date.', name: 'Please enter your name.', phone: 'Please enter your phone number.' };
+        var msgs = {
+          moveType: 'Please select a service.',
+          moveSize: 'Please select a size.',
+          fromAddress: 'Please enter the address.',
+          toAddress: 'Please enter the destination.',
+          moveDate: 'Please choose a date.',
+          name: 'Please enter your name.',
+          phone: 'Please enter your phone number.'
+        };
         errorBox.textContent = msgs[fields[i].name] || 'Please complete this step.';
         if (fields[i].focus) fields[i].focus();
         return false;
       }
     }
-    if (idx === totalSteps - 1) {
-      var ph = form.querySelector('input[name="phone"]');
-      if ((ph.value || '').replace(/\D/g, '').length < 10) { errorBox.textContent = 'Please enter a valid 10-digit phone number.'; ph.focus(); return false; }
-      var em = form.querySelector('input[name="email"]');
-      if (em.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())) { errorBox.textContent = 'Please enter a valid email.'; em.focus(); return false; }
+
+    // Phone validation on contact step
+    if (sid === 'contact') {
+      var ph = form.querySelector('.fstep[data-sid="contact"] input[name="phone"]');
+      if (ph && (ph.value || '').replace(/\D/g, '').length < 10) {
+        errorBox.textContent = 'Please enter a valid 10-digit phone number.';
+        ph.focus();
+        return false;
+      }
+      var em = form.querySelector('.fstep[data-sid="contact"] input[name="email"]');
+      if (em && em.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())) {
+        errorBox.textContent = 'Please enter a valid email.';
+        em.focus();
+        return false;
+      }
     }
+
     errorBox.textContent = '';
     return true;
   }
 
+  // ── Navigation ──
   nextBtn.addEventListener('click', function () {
-    if (!validateStep(currentStep)) return;
-    if (currentStep < totalSteps - 1) { trackEvent('funnel_step_complete', { step: currentStep + 1 }); showStep(currentStep + 1); }
+    if (!validateCurrentStep()) return;
+    if (currentIndex < currentFlow.length - 1) {
+      trackEvent('funnel_step_complete', { step: currentIndex + 1 });
+      showStep(currentIndex + 1);
+    }
   });
 
-  prevBtn.addEventListener('click', function () { if (currentStep > 0) showStep(currentStep - 1); });
+  prevBtn.addEventListener('click', function () {
+    if (currentIndex > 0) showStep(currentIndex - 1);
+  });
 
-  function handleSingleSelect(group) {
-    var btns = group.querySelectorAll('button');
-    btns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        btns.forEach(function (b) { b.classList.remove('selected'); });
-        btn.classList.add('selected');
-        var t = form.querySelector('input[name="' + group.dataset.name + '"]');
-        if (t) t.value = btn.dataset.value;
-        errorBox.textContent = '';
-        setTimeout(function () {
-          if (currentStep < totalSteps - 1) { trackEvent('funnel_step_complete', { step: currentStep + 1, auto: true }); showStep(currentStep + 1); }
-        }, 280);
+  // ── Option grids ──
+  function initSingleSelects() {
+    document.querySelectorAll('.single-select').forEach(function (group) {
+      var btns = group.querySelectorAll('button');
+      btns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          // Clear all buttons in THIS group
+          btns.forEach(function (b) { b.classList.remove('selected'); });
+          btn.classList.add('selected');
+
+          // Set hidden input value
+          var inputName = group.dataset.name;
+          // Find the hidden input in the same fstep
+          var fstep = group.closest('.fstep');
+          var target = fstep ? fstep.querySelector('input[name="' + inputName + '"]') : form.querySelector('input[name="' + inputName + '"]');
+          if (target) target.value = btn.dataset.value;
+          errorBox.textContent = '';
+
+          // If this is the SERVICE step, set the flow
+          var sid = fstep ? fstep.dataset.sid : null;
+          if (sid === 'service') {
+            selectedService = btn.dataset.value;
+            currentFlow = FLOWS[selectedService] || DEFAULT_FLOW;
+
+            // Set default packing value for non-move services
+            if (selectedService === 'packing') {
+              var packInput = form.querySelector('select[name="packing"]');
+              if (packInput) packInput.value = 'full';
+            }
+            if (selectedService === 'junk-removal') {
+              // Set toAddress to N/A for junk removal
+              var toAddr = form.querySelector('input[name="toAddress"]');
+              if (toAddr) toAddr.value = 'N/A (junk removal)';
+            }
+          }
+
+          // Auto-advance after selection
+          setTimeout(function () {
+            if (currentIndex < currentFlow.length - 1) {
+              trackEvent('funnel_step_complete', { step: currentIndex + 1, auto: true });
+              showStep(currentIndex + 1);
+            }
+          }, 280);
+        });
       });
     });
   }
 
-  function handleMultiSelect(group) {
-    group.querySelectorAll('button').forEach(function (btn) {
-      btn.addEventListener('click', function () { btn.classList.toggle('selected'); });
+  function initMultiSelects() {
+    document.querySelectorAll('.multi-select').forEach(function (group) {
+      group.querySelectorAll('button').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          btn.classList.toggle('selected');
+        });
+      });
     });
   }
 
-  document.querySelectorAll('.single-select').forEach(handleSingleSelect);
-  document.querySelectorAll('.multi-select').forEach(handleMultiSelect);
-
   function getMultiValues(name) {
-    var g = document.querySelector('.multi-select[data-name="' + name + '"]');
-    if (!g) return [];
-    return Array.from(g.querySelectorAll('button.selected')).map(function (b) { return b.dataset.value; });
+    var vals = [];
+    document.querySelectorAll('.multi-select[data-name="' + name + '"]').forEach(function (g) {
+      // Only get values from the currently active flow's steps
+      var fstep = g.closest('.fstep');
+      if (fstep && fstep.classList.contains('active') || isStepInFlow(fstep)) {
+        g.querySelectorAll('button.selected').forEach(function (b) {
+          if (vals.indexOf(b.dataset.value) === -1) vals.push(b.dataset.value);
+        });
+      }
+    });
+    return vals;
   }
 
+  function isStepInFlow(fstep) {
+    if (!fstep) return false;
+    var sid = fstep.dataset.sid;
+    return currentFlow.indexOf(sid) !== -1;
+  }
+
+  // ── Phone formatting ──
   if (phoneInput) {
     phoneInput.addEventListener('input', function (e) {
       var r = e.target.value.replace(/\D/g, '');
@@ -124,12 +227,14 @@
     });
   }
 
-  var dateInput = form.querySelector('input[name="moveDate"]');
-  if (dateInput) {
-    var d = new Date();
-    dateInput.setAttribute('min', d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'));
-  }
+  // ── Date min ──
+  var dateInputs = form.querySelectorAll('input[name="moveDate"]');
+  dateInputs.forEach(function (d) {
+    var now = new Date();
+    d.setAttribute('min', now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0'));
+  });
 
+  // ── Tracking fields ──
   function populateTracking() {
     var p = new URLSearchParams(window.location.search);
     var map = { utmSource: 'utm_source', utmCampaign: 'utm_campaign', utmMedium: 'utm_medium', utmContent: 'utm_content', utmTerm: 'utm_term', gclid: 'gclid' };
@@ -138,30 +243,50 @@
     var lp = document.getElementById('landingPage'); if (lp) lp.value = window.location.href || '';
   }
 
+  // ── Submit ──
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
-    if (!validateStep(currentStep)) return;
+    if (!validateCurrentStep()) return;
+
+    // Collect all form data
     var fd = new FormData(form);
     var payload = Object.fromEntries(fd.entries());
+
+    // Get multi-select values from steps that are in the current flow
     payload.access = getMultiValues('access');
     payload.specialItems = getMultiValues('specialItems');
+
+    // Ensure required fields have defaults
+    if (!payload.toAddress || payload.toAddress === '') payload.toAddress = 'N/A';
+    if (!payload.packing) payload.packing = 'none';
+    if (!payload.moveSize) payload.moveSize = 'studio';
+
     submitBtn.disabled = true;
     submitBtn.textContent = 'Getting your estimate...';
     errorBox.textContent = '';
+
     try {
-      var res = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      var res = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
       var data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.message || 'Submission failed.');
+
       form.classList.add('hidden');
       resultCard.classList.remove('hidden');
       resultTier.textContent = data.tier;
       resultRange.textContent = data.range;
       progressFill.style.width = '100%';
-      progressStepText.textContent = 'Complete';
+      progressText.textContent = 'Complete';
+
       var firstName = (data.name || '').split(' ')[0];
       if (firstName) resultGreeting.textContent = firstName + ', you\'re all set.';
+
       resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      trackEvent('funnel_complete', { tier: data.tier, range: data.range });
+      trackEvent('funnel_complete', { tier: data.tier, range: data.range, service: selectedService });
+
       if (typeof gtag === 'function') gtag('event', 'conversion', { send_to: 'AW-XXXXX/YYYYY' });
       if (typeof fbq === 'function') fbq('track', 'Lead');
     } catch (err) {
@@ -172,7 +297,7 @@
     }
   });
 
-  /* ═══ SCROLL REVEAL ═══ */
+  // ── Scroll reveal ──
   function initReveal() {
     var els = document.querySelectorAll('.reveal');
     if (!('IntersectionObserver' in window)) {
@@ -190,8 +315,12 @@
     els.forEach(function (el) { observer.observe(el); });
   }
 
+  // ── Init ──
+  initSingleSelects();
+  initMultiSelects();
   populateTracking();
   showStep(0);
   initReveal();
   trackEvent('funnel_view', { page: 'main' });
+
 })();

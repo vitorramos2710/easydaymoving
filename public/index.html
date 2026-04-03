@@ -32,25 +32,16 @@
   <div class="container hero-grid">
     <div class="hero-left">
       <div class="hero-tag"><span class="hero-tag-dot"></span> SoCal</div>
-
       <h1>Moving, Packing<br>& Junk Removal<br><span class="h1-accent">in SoCal.</span></h1>
-
-      <p class="hero-sub">
-        Flat-rate pricing. Fast quotes. Careful local crews across Orange County and Los Angeles. No hidden fees, ever.
-      </p>
-
+      <p class="hero-sub">Flat-rate pricing. Fast quotes. Careful local crews across Orange County and Los Angeles. No hidden fees, ever.</p>
       <div class="hero-actions">
         <a class="btn btn-dark btn-lg" href="#quote">Get Your Free Quote</a>
         <a class="btn btn-soft btn-lg" href="sms:+12138664956&body=Hi, I'd like a quote for Easy Day Moving.">Text Us</a>
       </div>
-
       <div class="hero-trust">
-        <span class="trust-item">SoCal Only</span>
-        <span class="trust-sep"></span>
-        <span class="trust-item">Licensed & Insured</span>
-        <span class="trust-sep"></span>
-        <span class="trust-item">5.0 ★ Google</span>
-        <span class="trust-sep"></span>
+        <span class="trust-item">SoCal Only</span><span class="trust-sep"></span>
+        <span class="trust-item">Licensed & Insured</span><span class="trust-sep"></span>
+        <span class="trust-item">5.0 ★ Google</span><span class="trust-sep"></span>
         <span class="trust-item">Flat-Rate</span>
       </div>
     </div>
@@ -58,60 +49,159 @@
     <div class="hero-card">
       <div class="card-head">
         <h3>Get your flat-rate quote</h3>
-        <p>2 minutes · No obligation · No spam</p>
+        <p>Customized to your needs · No spam</p>
       </div>
       <div class="card-body">
         <div class="progress-row">
-          <span class="progress-label" id="progress-step-text">Step 1 of 7</span>
+          <span class="progress-label" id="progress-step-text">Step 1</span>
         </div>
         <div class="progress-bar"><span id="progress-bar-fill"></span></div>
 
         <form id="lead-form" novalidate>
           <input type="hidden" name="utmSource" id="utmSource"/><input type="hidden" name="utmCampaign" id="utmCampaign"/><input type="hidden" name="utmMedium" id="utmMedium"/><input type="hidden" name="utmContent" id="utmContent"/><input type="hidden" name="utmTerm" id="utmTerm"/><input type="hidden" name="gclid" id="gclid"/><input type="hidden" name="referrer" id="referrer"/><input type="hidden" name="landingPage" id="landingPage"/>
 
-          <div class="step active" data-step="1">
+          <!-- ══ STEP: Service Type (always first) ══ -->
+          <div class="fstep active" data-sid="service">
             <h3>What do you need?</h3>
-            <p class="hint">Select the service that fits.</p>
+            <p class="hint">We'll customize the next questions for you.</p>
             <div class="option-grid single-select" data-name="moveType">
-              <button type="button" data-value="apartment">🏢 Apartment</button>
-              <button type="button" data-value="house">🏡 House</button>
-              <button type="button" data-value="small-office">💼 Office</button>
-              <button type="button" data-value="packing">📦 Packing</button>
+              <button type="button" data-value="apartment">🏢 Apartment Move</button>
+              <button type="button" data-value="house">🏡 House Move</button>
+              <button type="button" data-value="small-office">💼 Office Move</button>
+              <button type="button" data-value="packing">📦 Packing Only</button>
               <button type="button" data-value="junk-removal">🗑 Junk Removal</button>
               <button type="button" data-value="small-move">🛋 Small Move</button>
             </div>
             <input type="hidden" name="moveType" required/>
           </div>
 
-          <div class="step" data-step="2">
-            <h3>Size?</h3>
-            <p class="hint">Helps us plan the right crew.</p>
+          <!-- ══ APARTMENT SIZE ══ -->
+          <div class="fstep" data-sid="apt-size">
+            <h3>How big is your apartment?</h3>
+            <p class="hint">Helps us plan crew size and truck.</p>
+            <div class="option-grid single-select" data-name="moveSize">
+              <button type="button" data-value="studio">Studio</button>
+              <button type="button" data-value="1-bedroom">1 Bedroom</button>
+              <button type="button" data-value="2-bedroom">2 Bedrooms</button>
+              <button type="button" data-value="3-bedroom">3 Bedrooms</button>
+              <button type="button" data-value="4-bedroom+">4+ Bedrooms</button>
+            </div>
+            <input type="hidden" name="moveSize" required/>
+          </div>
+
+          <!-- ══ HOUSE SIZE ══ -->
+          <div class="fstep" data-sid="house-size">
+            <h3>How big is your house?</h3>
+            <p class="hint">Helps us plan crew size and trucks.</p>
+            <div class="option-grid single-select" data-name="moveSize">
+              <button type="button" data-value="2-bedroom">2 Bedrooms</button>
+              <button type="button" data-value="3-bedroom">3 Bedrooms</button>
+              <button type="button" data-value="4-bedroom+">4 Bedrooms</button>
+              <button type="button" data-value="4-bedroom+">5+ Bedrooms</button>
+            </div>
+            <input type="hidden" name="moveSize" required/>
+          </div>
+
+          <!-- ══ OFFICE SIZE ══ -->
+          <div class="fstep" data-sid="office-size">
+            <h3>How big is the office?</h3>
+            <div class="option-grid single-select" data-name="moveSize">
+              <button type="button" data-value="small-office">Small (1–5 desks)</button>
+              <button type="button" data-value="small-office">Medium (6–15 desks)</button>
+              <button type="button" data-value="4-bedroom+">Large (15+ desks)</button>
+            </div>
+            <input type="hidden" name="moveSize" required/>
+          </div>
+
+          <!-- ══ PACKING: What needs packing ══ -->
+          <div class="fstep" data-sid="packing-what">
+            <h3>What needs packing?</h3>
+            <p class="hint">Select all that apply.</p>
+            <div class="option-grid multi-select" data-name="specialItems">
+              <button type="button" data-value="kitchen">🍳 Kitchen</button>
+              <button type="button" data-value="fragile">🏺 Fragile items</button>
+              <button type="button" data-value="bedrooms">🛏 Bedrooms</button>
+              <button type="button" data-value="full-home">🏠 Entire home</button>
+              <button type="button" data-value="garage">🔧 Garage</button>
+              <button type="button" data-value="closets">👔 Closets</button>
+            </div>
+          </div>
+
+          <!-- ══ PACKING: Size ══ -->
+          <div class="fstep" data-sid="packing-size">
+            <h3>How big is the space?</h3>
             <div class="option-grid single-select" data-name="moveSize">
               <button type="button" data-value="studio">Studio</button>
               <button type="button" data-value="1-bedroom">1 BR</button>
               <button type="button" data-value="2-bedroom">2 BR</button>
               <button type="button" data-value="3-bedroom">3 BR</button>
               <button type="button" data-value="4-bedroom+">4+ BR</button>
-              <button type="button" data-value="small-office">Office</button>
             </div>
             <input type="hidden" name="moveSize" required/>
           </div>
 
-          <div class="step" data-step="3">
-            <h3>Locations?</h3>
+          <!-- ══ JUNK: Type ══ -->
+          <div class="fstep" data-sid="junk-type">
+            <h3>What are we removing?</h3>
+            <p class="hint">Select all that apply.</p>
+            <div class="option-grid multi-select" data-name="specialItems">
+              <button type="button" data-value="furniture">🛋 Furniture</button>
+              <button type="button" data-value="appliances">🧊 Appliances</button>
+              <button type="button" data-value="garage-cleanout">🔧 Garage cleanout</button>
+              <button type="button" data-value="yard-waste">🌿 Yard waste</button>
+              <button type="button" data-value="electronics">💻 Electronics</button>
+              <button type="button" data-value="mixed">📦 Mixed / general</button>
+            </div>
+          </div>
+
+          <!-- ══ JUNK: Amount ══ -->
+          <div class="fstep" data-sid="junk-amount">
+            <h3>How much junk?</h3>
+            <div class="option-grid single-select" data-name="moveSize">
+              <button type="button" data-value="studio">1–2 items</button>
+              <button type="button" data-value="1-bedroom">Pickup truck load</button>
+              <button type="button" data-value="2-bedroom">Full truck load</button>
+              <button type="button" data-value="3-bedroom">Multiple loads</button>
+            </div>
+            <input type="hidden" name="moveSize" required/>
+          </div>
+
+          <!-- ══ SMALL MOVE: Items ══ -->
+          <div class="fstep" data-sid="small-items">
+            <h3>What are you moving?</h3>
+            <p class="hint">Select all that apply.</p>
+            <div class="option-grid multi-select" data-name="specialItems">
+              <button type="button" data-value="few-furniture">🛋 Few furniture pieces</button>
+              <button type="button" data-value="boxes-only">📦 Just boxes</button>
+              <button type="button" data-value="single-item">🏋️ Single large item</button>
+              <button type="button" data-value="mixed-small">🗂 Misc / small load</button>
+            </div>
+          </div>
+
+          <!-- ══ ADDRESSES (From → To) ══ -->
+          <div class="fstep" data-sid="addresses">
+            <h3>Moving from and to?</h3>
             <label><span class="lbl">From</span><input type="text" name="fromAddress" placeholder="Current address" required/></label>
             <label><span class="lbl">To</span><input type="text" name="toAddress" placeholder="New address" required/></label>
           </div>
 
-          <div class="step" data-step="4">
-            <h3>When?</h3>
-            <label><span class="lbl">Date</span><input type="date" name="moveDate" required/></label>
-            <label><span class="lbl">Contact</span><select name="contactPreference"><option value="text">Text</option><option value="call">Call</option><option value="email">Email</option></select></label>
+          <!-- ══ SINGLE ADDRESS ══ -->
+          <div class="fstep" data-sid="address-single">
+            <h3>Where is the job?</h3>
+            <label><span class="lbl">Address</span><input type="text" name="fromAddress" placeholder="Street address" required/></label>
           </div>
 
-          <div class="step" data-step="5">
-            <h3>Access?</h3>
-            <p class="hint">Select all that apply.</p>
+          <!-- ══ DATE ══ -->
+          <div class="fstep" data-sid="date">
+            <h3>When do you need this?</h3>
+            <label><span class="lbl">Date</span><input type="date" name="moveDate" required/></label>
+            <label><span class="lbl">Best way to reach you?</span><select name="contactPreference"><option value="text">Text</option><option value="call">Call</option><option value="email">Email</option></select></label>
+          </div>
+
+          <!-- ══ APARTMENT ACCESS ══ -->
+          <div class="fstep" data-sid="apt-access">
+            <h3>Any access challenges?</h3>
+            <p class="hint">Select all that apply, or skip.</p>
             <div class="option-grid multi-select" data-name="access">
               <button type="button" data-value="stairs">Stairs</button>
               <button type="button" data-value="elevator">Elevator</button>
@@ -120,20 +210,72 @@
             </div>
           </div>
 
-          <div class="step" data-step="6">
-            <h3>Special items?</h3>
+          <!-- ══ HOUSE ACCESS ══ -->
+          <div class="fstep" data-sid="house-access">
+            <h3>Any access challenges?</h3>
+            <p class="hint">Select all that apply, or skip.</p>
+            <div class="option-grid multi-select" data-name="access">
+              <button type="button" data-value="stairs">Stairs (multi-story)</button>
+              <button type="button" data-value="long-carry">Long driveway</button>
+              <button type="button" data-value="difficult-parking">Narrow street</button>
+              <button type="button" data-value="gated">Gated community</button>
+            </div>
+          </div>
+
+          <!-- ══ OFFICE ACCESS ══ -->
+          <div class="fstep" data-sid="office-access">
+            <h3>Building access?</h3>
+            <p class="hint">Select all that apply.</p>
+            <div class="option-grid multi-select" data-name="access">
+              <button type="button" data-value="elevator">Freight elevator</button>
+              <button type="button" data-value="stairs">Stairs only</button>
+              <button type="button" data-value="loading-dock">Loading dock</button>
+              <button type="button" data-value="parking-permit">Parking permit needed</button>
+            </div>
+          </div>
+
+          <!-- ══ MOVE ACCESS (small moves) ══ -->
+          <div class="fstep" data-sid="move-access">
+            <h3>Any access issues?</h3>
+            <p class="hint">Select all that apply, or skip.</p>
+            <div class="option-grid multi-select" data-name="access">
+              <button type="button" data-value="stairs">Stairs</button>
+              <button type="button" data-value="elevator">Elevator</button>
+              <button type="button" data-value="long-carry">Long carry</button>
+              <button type="button" data-value="difficult-parking">Tight parking</button>
+            </div>
+          </div>
+
+          <!-- ══ SPECIAL ITEMS + PACKING (for moves) ══ -->
+          <div class="fstep" data-sid="special-packing">
+            <h3>Special items or packing?</h3>
             <div class="option-grid multi-select" data-name="specialItems">
               <button type="button" data-value="piano">Piano</button>
               <button type="button" data-value="safe">Safe / heavy</button>
               <button type="button" data-value="gym-equipment">Gym equipment</button>
               <button type="button" data-value="oversized-sectional">Large furniture</button>
             </div>
-            <label><span class="lbl">Packing?</span><select name="packing"><option value="none">No packing</option><option value="partial">Partial</option><option value="full">Full</option></select></label>
+            <label><span class="lbl">Need packing?</span><select name="packing"><option value="none">No packing</option><option value="partial">Partial</option><option value="full">Full packing</option></select></label>
           </div>
 
-          <div class="step" data-step="7">
-            <h3>Your info</h3>
-            <p class="hint">We'll send your quote here.</p>
+          <!-- ══ OFFICE ITEMS ══ -->
+          <div class="fstep" data-sid="office-items">
+            <h3>What's being moved?</h3>
+            <p class="hint">Select all that apply.</p>
+            <div class="option-grid multi-select" data-name="specialItems">
+              <button type="button" data-value="desks">🖥 Desks & chairs</button>
+              <button type="button" data-value="filing">🗄 Filing cabinets</button>
+              <button type="button" data-value="conference">📋 Conference table</button>
+              <button type="button" data-value="electronics">💻 Monitors & tech</button>
+              <button type="button" data-value="servers">🖲 Servers / IT</button>
+              <button type="button" data-value="misc-office">📦 Misc office</button>
+            </div>
+          </div>
+
+          <!-- ══ CONTACT INFO (always last) ══ -->
+          <div class="fstep" data-sid="contact">
+            <h3>Where should we send your quote?</h3>
+            <p class="hint">No spam. Just your personalized quote.</p>
             <label><span class="lbl">Name</span><input type="text" name="name" placeholder="Full name" required autocomplete="name"/></label>
             <label><span class="lbl">Phone</span><input type="tel" name="phone" id="phone-input" placeholder="(213) 866-4956" required autocomplete="tel"/></label>
             <label><span class="lbl">Email</span><input type="email" name="email" placeholder="Optional" autocomplete="email"/></label>
@@ -172,11 +314,7 @@
 <!-- Services -->
 <section id="services" class="section section-alt">
   <div class="container">
-    <div class="s-head reveal">
-      <div class="s-label">Services</div>
-      <h2>Three ways to lighten your load.</h2>
-      <p>One team, flat-rate pricing, across SoCal.</p>
-    </div>
+    <div class="s-head reveal"><div class="s-label">Services</div><h2>Three ways to lighten your load.</h2><p>One team, flat-rate pricing, across SoCal.</p></div>
     <div class="svc-grid">
       <div class="svc-card reveal reveal-delay-1"><span class="svc-icon">🚚</span><h3>Local Moving</h3><p>Apartments, houses, and offices across OC and LA. Flat-rate, on-time, fully insured.</p></div>
       <div class="svc-card reveal reveal-delay-2"><span class="svc-icon">📦</span><h3>Packing</h3><p>Full or partial. We bring supplies and handle everything — kitchen, fragile, all of it.</p></div>
@@ -188,12 +326,9 @@
 <!-- How -->
 <section id="how" class="section">
   <div class="container">
-    <div class="s-head reveal" style="text-align:center;margin-left:auto;margin-right:auto;">
-      <div class="s-label">Process</div>
-      <h2>Simple by design.</h2>
-    </div>
+    <div class="s-head reveal" style="text-align:center;margin-left:auto;margin-right:auto;"><div class="s-label">Process</div><h2>Simple by design.</h2></div>
     <div class="steps-row">
-      <div class="step-item reveal reveal-delay-1"><span class="step-num">1</span><h3>Tell us what you need</h3><p>Moving, packing, or junk removal. A few quick questions.</p></div>
+      <div class="step-item reveal reveal-delay-1"><span class="step-num">1</span><h3>Tell us what you need</h3><p>We customize the questions based on your service.</p></div>
       <div class="step-item reveal reveal-delay-2"><span class="step-num">2</span><h3>Get your flat rate</h3><p>See your price range instantly. No pressure.</p></div>
       <div class="step-item reveal reveal-delay-3"><span class="step-num">3</span><h3>Confirm by text</h3><p>Send a walkthrough or just text. Same-day reply.</p></div>
     </div>
@@ -229,9 +364,7 @@
 <section id="areas" class="section section-alt">
   <div class="container">
     <div class="s-head reveal"><div class="s-label">Coverage</div><h2>Orange County & Los Angeles.</h2><p>Local crews across SoCal.</p></div>
-    <div class="area-tags reveal">
-      <span>Anaheim</span><span>Irvine</span><span>Santa Ana</span><span>Fullerton</span><span>Garden Grove</span><span>Costa Mesa</span><span>Huntington Beach</span><span>Newport Beach</span><span>Long Beach</span><span>Torrance</span><span>Pasadena</span><span>Los Angeles</span><span>Glendale</span><span>Burbank</span><span>Santa Monica</span><span>Culver City</span><span>West Hollywood</span><span>Tustin</span><span>Mission Viejo</span><span>Lake Forest</span>
-    </div>
+    <div class="area-tags reveal"><span>Anaheim</span><span>Irvine</span><span>Santa Ana</span><span>Fullerton</span><span>Garden Grove</span><span>Costa Mesa</span><span>Huntington Beach</span><span>Newport Beach</span><span>Long Beach</span><span>Torrance</span><span>Pasadena</span><span>Los Angeles</span><span>Glendale</span><span>Burbank</span><span>Santa Monica</span><span>Culver City</span><span>West Hollywood</span><span>Tustin</span><span>Mission Viejo</span><span>Lake Forest</span></div>
   </div>
 </section>
 
