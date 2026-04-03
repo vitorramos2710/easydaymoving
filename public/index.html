@@ -293,18 +293,38 @@
           <div class="result-header">
             <div class="result-check"><svg width="18" height="18" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <h3 class="result-title" id="result-greeting">You're all set.</h3>
-            <p class="result-sub">Your estimated flat-rate range:</p>
+            <p class="result-sub" id="result-sub">Here's your estimated flat-rate range:</p>
           </div>
+
           <div class="result-box">
             <div class="result-badge" id="result-tier">Standard Move</div>
             <div class="result-range" id="result-range">$899 – $1,250</div>
+            <div class="result-note">Based on your answers · Final price after review</div>
           </div>
-          <div class="result-next"><strong>Want your exact price?</strong> Text us a 30-second walkthrough video — most replies within 15 minutes.</div>
+
+          <div class="result-video" id="result-video-section">
+            <div class="result-video-icon">📹</div>
+            <div class="result-video-copy">
+              <strong id="result-video-title">Want your exact price? Send a walkthrough.</strong>
+              <p id="result-video-text">A 30-second video of your space gets you your final flat rate. Most replies within 15 minutes.</p>
+            </div>
+          </div>
+
           <div class="result-btns">
-            <a class="btn btn-dark btn-lg" href="sms:+12138664956&body=Hi, here's my walkthrough video for Easy Day Moving:">Text Walkthrough</a>
-            <a class="btn btn-soft" href="tel:+12138664956">Call to Book</a>
+            <a class="btn btn-dark btn-lg" id="result-cta-primary" href="sms:+12138664956&body=Hi, here's my walkthrough video for Easy Day Moving:">
+              📱 Text My Walkthrough Video
+            </a>
+            <a class="btn btn-soft" href="sms:+12138664956&body=Hi, I just got my quote from Easy Day Moving. I'd like to book.">
+              💬 Text to Book Directly
+            </a>
+            <a class="btn btn-ghost" href="tel:+12138664956">
+              Call (213) 866-4956
+            </a>
           </div>
-          <p class="result-fine">Price confirmed after review. No obligation.</p>
+
+          <div class="result-urgency" id="result-urgency">
+            ⚡ Most customers who text a walkthrough get booked within 24 hours
+          </div>
         </div>
       </div>
     </div>

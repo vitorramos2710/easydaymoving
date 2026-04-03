@@ -284,6 +284,47 @@
       var firstName = (data.name || '').split(' ')[0];
       if (firstName) resultGreeting.textContent = firstName + ', you\'re all set.';
 
+      // ── Customize result per service type ──
+      var resultSub = document.getElementById('result-sub');
+      var videoTitle = document.getElementById('result-video-title');
+      var videoText = document.getElementById('result-video-text');
+      var videoCta = document.getElementById('result-cta-primary');
+      var videoSection = document.getElementById('result-video-section');
+      var urgency = document.getElementById('result-urgency');
+
+      var svc = data.moveType || selectedService || 'apartment';
+
+      if (svc === 'junk-removal') {
+        resultSub.textContent = 'Estimated junk removal range:';
+        videoTitle.textContent = 'Send us a photo of what needs to go.';
+        videoText.textContent = 'A quick photo of the items helps us confirm your exact flat rate. Most replies in 15 min.';
+        videoCta.textContent = '📸 Text Photos of Items';
+        videoCta.href = 'sms:+12138664956&body=Hi, here are photos of the junk I need removed:';
+        urgency.textContent = '⚡ Same-week junk removal available for most jobs';
+      } else if (svc === 'packing') {
+        resultSub.textContent = 'Estimated packing service range:';
+        videoTitle.textContent = 'Show us what needs packing.';
+        videoText.textContent = 'A quick walkthrough of the rooms helps us give you the tightest flat rate.';
+        videoCta.textContent = '📱 Text Walkthrough Video';
+        urgency.textContent = '⚡ Packing crews available within 48 hours for most jobs';
+      } else if (svc === 'small-move') {
+        resultSub.textContent = 'Estimated small move range:';
+        videoTitle.textContent = 'Show us the items.';
+        videoText.textContent = 'A quick photo or video of what you\'re moving locks in your exact price.';
+        videoCta.textContent = '📱 Text Photos / Video';
+        videoCta.href = 'sms:+12138664956&body=Hi, here are the items for my small move:';
+        urgency.textContent = '⚡ Small moves often available within 48 hours';
+      } else if (svc === 'small-office') {
+        resultSub.textContent = 'Estimated office move range:';
+        videoTitle.textContent = 'Walk us through the office.';
+        videoText.textContent = 'A 30-second video of the office helps us plan crew, equipment, and your exact flat rate.';
+        urgency.textContent = '⚡ Weekend office moves available — zero downtime';
+      } else {
+        resultSub.textContent = 'Your estimated flat-rate range:';
+        videoTitle.textContent = 'Want your exact price? Send a walkthrough.';
+        videoText.textContent = 'A 30-second video of your place gets you your final flat rate. Most replies within 15 minutes.';
+      }
+
       resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
       trackEvent('funnel_complete', { tier: data.tier, range: data.range, service: selectedService });
 

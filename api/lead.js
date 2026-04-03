@@ -1,26 +1,91 @@
 const nodemailer = require('nodemailer');
 
-function estimateRange(moveSize, packing, specialItems) {
-  const baseRanges = {
-    studio: [449, 599],
-    '1-bedroom': [599, 849],
-    '2-bedroom': [899, 1250],
-    '3-bedroom': [1300, 1900],
-    '4-bedroom+': [1800, 2800],
-    'small-office': [700, 1600]
+/* ═══ PRICING BY SERVICE TYPE ═══ */
+
+function estimateRange(moveType, moveSize, packing, specialItems) {
+  // ── Moving (apartment / house) ──
+  const movingRanges = {
+    studio:      [450, 650],
+    '1-bedroom': [600, 900],
+    '2-bedroom': [900, 1350],
+    '3-bedroom': [1300, 2000],
+    '4-bedroom+': [1800, 3200],
+    'small-office': [800, 1800]
   };
 
-  const selected = baseRanges[moveSize] || [599, 999];
+  // ── Packing only ──
+  const packingRanges = {
+    studio:      [200, 350],
+    '1-bedroom': [300, 500],
+    '2-bedroom': [450, 750],
+    '3-bedroom': [650, 1000],
+    '4-bedroom+': [900, 1500],
+    'small-office': [400, 800]
+  };
+
+  // ── Junk removal (size maps to amount) ──
+  const junkRanges = {
+    studio:      [100, 250],    // 1-2 items
+    '1-bedroom': [250, 450],    // pickup truck load
+    '2-bedroom': [400, 700],    // full truck load
+    '3-bedroom': [650, 1200],   // multiple loads
+    '4-bedroom+': [650, 1200],
+    'small-office': [300, 600]
+  };
+
+  // ── Small move ──
+  const smallMoveRanges = {
+    studio:      [250, 450],
+    '1-bedroom': [300, 550],
+    '2-bedroom': [400, 650],
+    '3-bedroom': [400, 650],
+    '4-bedroom+': [400, 650],
+    'small-office': [300, 500]
+  };
+
+  // Pick the right pricing table
+  let ranges;
+  if (moveType === 'packing') {
+    ranges = packingRanges;
+  } else if (moveType === 'junk-removal') {
+    ranges = junkRanges;
+  } else if (moveType === 'small-move') {
+    ranges = smallMoveRanges;
+  } else {
+    ranges = movingRanges;
+  }
+
+  const selected = ranges[moveSize] || ranges['1-bedroom'] || [500, 900];
   let [min, max] = selected;
 
-  if (packing === 'partial') { min += 150; max += 300; }
-  if (packing === 'full') { min += 300; max += 800; }
-  if (Array.isArray(specialItems) && specialItems.length > 0) { min += 100; max += 400; }
+  // Packing add-on (only for move types, not packing-only)
+  if (moveType !== 'packing' && moveType !== 'junk-removal') {
+    if (packing === 'partial') { min += 200; max += 400; }
+    if (packing === 'full') { min += 400; max += 900; }
+  }
 
-  return `$${min}–$${max}`;
+  // Special items surcharge (moves only)
+  if (moveType !== 'packing' && moveType !== 'junk-removal') {
+    if (Array.isArray(specialItems) && specialItems.length > 0) {
+      min += specialItems.length * 75;
+      max += specialItems.length * 150;
+    }
+  }
+
+  return `$${min.toLocaleString()}–$${max.toLocaleString()}`;
 }
 
-function deriveTier(moveSize) {
+function deriveTier(moveType, moveSize) {
+  if (moveType === 'packing') return 'Packing Service';
+  if (moveType === 'junk-removal') {
+    if (moveSize === 'studio') return 'Light Removal';
+    if (moveSize === '1-bedroom') return 'Standard Removal';
+    return 'Full Cleanout';
+  }
+  if (moveType === 'small-move') return 'Small Move';
+  if (moveType === 'small-office') return 'Office Move';
+
+  // Regular moves
   if (moveSize === 'studio' || moveSize === '1-bedroom') return 'Small Move';
   if (moveSize === '2-bedroom' || moveSize === 'small-office') return 'Standard Move';
   return 'Large Move';
@@ -37,30 +102,34 @@ async function notifyEmail(lead) {
   });
 
   const lines = [
+    `🌴 NEW EASY DAY MOVING LEAD`,
+    ``,
+    `Service: ${lead.moveType}`,
     `Name: ${lead.name}`,
     `Phone: ${lead.phone}`,
     `Email: ${lead.email || 'N/A'}`,
-    `Move Type: ${lead.moveType}`,
     `Move Size: ${lead.moveSize}`,
     `From: ${lead.fromAddress}`,
-    `To: ${lead.toAddress}`,
-    `Move Date: ${lead.moveDate}`,
+    `To: ${lead.toAddress || 'N/A'}`,
+    `Date: ${lead.moveDate}`,
     `Access: ${(lead.access || []).join(', ') || 'None'}`,
     `Special Items: ${(lead.specialItems || []).join(', ') || 'None'}`,
     `Packing: ${lead.packing}`,
-    `Preferred Contact: ${lead.contactPreference}`,
+    `Contact Pref: ${lead.contactPreference}`,
+    ``,
     `Tier: ${lead.tier}`,
     `Estimated Range: ${lead.range}`,
+    ``,
     `UTM Source: ${lead.utmSource || ''}`,
     `UTM Campaign: ${lead.utmCampaign || ''}`,
     `UTM Medium: ${lead.utmMedium || ''}`,
-    `Created At: ${lead.createdAt}`
+    `Created: ${lead.createdAt}`
   ];
 
   await transporter.sendMail({
     from: process.env.SMTP_FROM || process.env.SMTP_USER,
     to: process.env.NOTIFY_EMAIL,
-    subject: `New Easy Day Moving Lead — ${lead.name} (${lead.tier})`,
+    subject: `🌴 New Lead — ${lead.name} (${lead.tier}) — ${lead.moveType}`,
     text: lines.join('\n')
   });
 }
@@ -79,7 +148,6 @@ async function notifyWebhook(lead) {
 }
 
 module.exports = async function handler(req, res) {
-  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -95,17 +163,23 @@ module.exports = async function handler(req, res) {
       gclid, referrer, landingPage
     } = req.body;
 
-    if (!name || !phone || !moveType || !moveSize || !fromAddress || !toAddress || !moveDate) {
+    if (!name || !phone || !moveType || !fromAddress || !moveDate) {
       return res.status(400).json({ ok: false, message: 'Missing required fields.' });
     }
 
     const lead = {
-      name, phone, email, moveType, moveSize, fromAddress, toAddress, moveDate,
+      name, phone, email,
+      moveType,
+      moveSize: moveSize || 'studio',
+      fromAddress,
+      toAddress: toAddress || 'N/A',
+      moveDate,
       access: Array.isArray(access) ? access : [],
       specialItems: Array.isArray(specialItems) ? specialItems : [],
-      packing, contactPreference,
-      tier: deriveTier(moveSize),
-      range: estimateRange(moveSize, packing, specialItems),
+      packing: packing || 'none',
+      contactPreference,
+      tier: deriveTier(moveType, moveSize || 'studio'),
+      range: estimateRange(moveType, moveSize || 'studio', packing, specialItems),
       utmSource, utmCampaign, utmMedium, utmContent, utmTerm,
       gclid, referrer, landingPage,
       createdAt: new Date().toISOString()
@@ -121,7 +195,8 @@ module.exports = async function handler(req, res) {
       tier: lead.tier,
       range: lead.range,
       name: lead.name,
-      message: 'Lead received successfully.'
+      moveType: lead.moveType,
+      message: 'Lead received.'
     });
   } catch (error) {
     console.error(error);
