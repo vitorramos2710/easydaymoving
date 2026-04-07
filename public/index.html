@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Easy Day Moving — Moving, Packing & Junk Removal in SoCal</title>
+  <meta name="description" content="Flat-rate moving, packing & junk removal across Orange County and Los Angeles. Get your quote in 2 minutes."/>
+  <meta name="theme-color" content="#ffffff"/>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17973103075"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-17973103075');
+  </script>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+
+<header class="nav-bar">
+  <div class="container nav-inner">
+    <a class="logo" href="#top">🌴 Easy Day Moving</a>
+    <nav class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#how">How It Works</a>
+      <a href="#areas">Areas</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-end">
+      <a class="nav-phone" href="tel:+12138664956">(213) 866-4956</a>
+      <a class="btn btn-coastal btn-sm" href="#quote">Get a Quote</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero" id="quote">
+  <div class="container hero-grid">
+    <div class="hero-left">
+      <div class="hero-tag"><span class="hero-tag-dot"></span> SoCal</div>
+      <h1>Moving, Packing<br>& Junk Removal<br><span class="h1-accent">in SoCal.</span></h1>
+      <p class="hero-sub">Flat-rate pricing. Fast quotes. Careful local crews across Orange County and Los Angeles. No hidden fees, ever.</p>
+      <div class="hero-actions">
+        <a class="btn btn-dark btn-lg" href="#quote">Get Your Free Quote</a>
+        <a class="btn btn-soft btn-lg" href="sms:+12138664956&body=Hi, I'd like a quote for Easy Day Moving.">Text Us</a>
+      </div>
+      <div class="hero-trust">
+        <span class="trust-item">SoCal Only</span><span class="trust-sep"></span>
+        <span class="trust-item">Licensed & Insured</span><span class="trust-sep"></span>
+        <span class="trust-item">5.0 ★ Google</span><span class="trust-sep"></span>
+        <span class="trust-item">Flat-Rate</span>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="card-head">
+        <h3>Get your flat-rate quote</h3>
+        <p>Customized to your needs · No spam</p>
+      </div>
+      <div class="card-body">
+        <div class="progress-row">
+          <span class="progress-label" id="progress-text">Step 1</span>
+        </div>
+        <div class="progress-bar"><span id="progress-fill"></span></div>
+
+        <div id="funnel-form">
+
+          <!-- STEP: Service -->
+          <div class="fs active" data-sid="service">
+            <h3>What do you need?</h3>
+            <p class="hint">We'll customize the next questions for you.</p>
+            <div class="option-grid" data-key="moveType" data-mode="single">
+              <button type="button" data-val="apartment">🏢 Apartment Move</button>
+              <button type="button" data-val="house">🏡 House Move</button>
+              <button type="button" data-val="small-office">💼 Small Office</button>
+              <button type="button" data-val="packing">📦 Packing Only</button>
+              <button type="button" data-val="junk-removal">🗑 Junk Removal</button>
+              <button type="button" data-val="small-move">🛋 Small Move</button>
+            </div>
+          </div>
+
+          <!-- STEP: Apt size -->
+          <div class="fs" data-sid="apt-size">
+            <h3>How big is your apartment?</h3>
+            <div class="option-grid" data-key="moveSize" data-mode="single">
+              <button type="button" data-val="studio">Studio</button>
+              <button type="button" data-val="1-bedroom">1 Bedroom</button>
+              <button type="button" data-val="2-bedroom">2 Bedrooms</button>
+            </div>
+          </div>
+
+          <!-- STEP: House size -->
+          <div class="fs" data-sid="house-size">
+            <h3>How big is your house?</h3>
+            <p class="hint">We handle homes up to 2BR with our current fleet.</p>
+            <div class="option-grid" data-key="moveSize" data-mode="single">
+              <button type="button" data-val="1-bedroom">1 Bedroom</button>
+              <button type="button" data-val="2-bedroom">2 Bedrooms</button>
+            </div>
+          </div>
+
+          <!-- STEP: Office size -->
+          <div class="fs" data-sid="office-size">
+            <h3>How big is the office?</h3>
+            <div class="option-grid" data-key="moveSize" data-mode="single">
+              <button type="button" data-val="small-office">Small (1–5 desks)</button>
+              <button type="button" data-val="small-office">Medium (6–10 desks)</button>
+            </div>
+          </div>
+
+          <!-- STEP: Packing what -->
+          <div class="fs" data-sid="packing-what">
+            <h3>What needs packing?</h3>
+            <p class="hint">Select all that apply.</p>
+            <div class="option-grid" data-key="specialItems" data-mode="multi">
+              <button type="button" data-val="kitchen">🍳 Kitchen</button>
+              <button type="button" data-val="fragile">🏺 Fragile items</button>
+              <button type="button" data-val="bedrooms">🛏 Bedrooms</button>
+              <button type="button" data-val="full-home">🏠 Entire home</button>
+              <button type="button" data-val="closets">👔 Closets</button>
+            </div>
+          </div>
+
+          <!-- STEP: Packing size -->
+          <div class="fs" data-sid="packing-size">
+            <h3>How big is the space?</h3>
+            <div class="option-grid" data-key="moveSize" data-mode="single">
+              <button type="button" data-val="studio">Studio</button>
+              <button type="button" data-val="1-bedroom">1 BR</button>
+              <button type="button" data-val="2-bedroom">2 BR</button>
+            </div>
+          </div>
+
+          <!-- STEP: Junk type -->
+          <div class="fs" data-sid="junk-type">
+            <h3>What are we removing?</h3>
+            <p class="hint">Select all that apply.</p>
+            <div class="option-grid" data-key="specialItems" data-mode="multi">
+              <button type="button" data-val="furniture">🛋 Furniture</button>
+              <button type="button" data-val="appliances">🧊 Appliances</button>
+              <button type="button" data-val="garage-cleanout">🔧 Garage stuff</button>
+              <button type="button" data-val="yard-waste">🌿 Yard waste</button>
+              <button type="button" data-val="electronics">💻 Electronics</button>
+              <button type="button" data-val="mixed">📦 Mixed</button>
+            </div>
+          </div>
+
+          <!-- STEP: Junk amount -->
+          <div class="fs" data-sid="junk-amount">
+            <h3>How much?</h3>
+            <div class="option-grid" data-key="moveSize" data-mode="single">
+              <button type="button" data-val="studio">1–3 items</button>
+              <button type="button" data-val="1-bedroom">Pickup truck load</button>
+              <button type="button" data-val="2-bedroom">Full truck load</button>
+            </div>
+          </div>
+
+          <!-- STEP: Small move items -->
+          <div class="fs" data-sid="small-items">
+            <h3>What are you moving?</h3>
+            <p class="hint">Select all that apply.</p>
+            <div class="option-grid" data-key="specialItems" data-mode="multi">
+              <button type="button" data-val="few-furniture">🛋 Few furniture pieces</button>
+              <button type="button" data-val="boxes-only">📦 Just boxes</button>
+              <button type="button" data-val="single-item">🏋️ Single large item</button>
+              <button type="button" data-val="mixed-small">🗂 Misc small load</button>
+            </div>
+          </div>
+
+          <!-- STEP: Two addresses -->
+          <div class="fs" data-sid="addresses">
+            <h3>Moving from and to?</h3>
+            <label><span class="lbl">From</span><input type="text" id="inp-from" placeholder="Current address"/></label>
+            <label><span class="lbl">To</span><input type="text" id="inp-to" placeholder="New address"/></label>
+          </div>
+
+          <!-- STEP: Single address -->
+          <div class="fs" data-sid="address-single">
+            <h3>Where is the job?</h3>
+            <label><span class="lbl">Address</span><input type="text" id="inp-from-single" placeholder="Street address"/></label>
+          </div>
+
+          <!-- STEP: Date -->
+          <div class="fs" data-sid="date">
+            <h3>When do you need this?</h3>
+            <label><span class="lbl">Date</span><input type="date" id="inp-date"/></label>
+            <label><span class="lbl">Best way to reach you?</span>
+              <select id="inp-contact">
+                <option value="text">Text</option>
+                <option value="call">Call</option>
+                <option value="email">Email</option>
+              </select>
+            </label>
+          </div>
+
+          <!-- STEP: Apt access -->
+          <div class="fs" data-sid="apt-access">
+            <h3>Any access challenges?</h3>
+            <p class="hint">Select all that apply, or just continue.</p>
+            <div class="option-grid" data-key="access" data-mode="multi">
+              <button type="button" data-val="stairs">Stairs</button>
+              <button type="button" data-val="elevator">Elevator</button>
+              <button type="button" data-val="long-carry">Long carry</button>
+              <button type="button" data-val="difficult-parking">Tight parking</button>
+            </div>
+          </div>
+
+          <!-- STEP: House access -->
+          <div class="fs" data-sid="house-access">
+            <h3>Any access challenges?</h3>
+            <p class="hint">Select all that apply, or just continue.</p>
+            <div class="option-grid" data-key="access" data-mode="multi">
+              <button type="button" data-val="stairs">Stairs (multi-story)</button>
+              <button type="button" data-val="long-carry">Long driveway</button>
+              <button type="button" data-val="difficult-parking">Narrow street</button>
+              <button type="button" data-val="gated">Gated community</button>
+            </div>
+          </div>
+
+          <!-- STEP: Office access -->
+          <div class="fs" data-sid="office-access">
+            <h3>Building access?</h3>
+            <p class="hint">Select all that apply, or just continue.</p>
+            <div class="option-grid" data-key="access" data-mode="multi">
+              <button type="button" data-val="elevator">Freight elevator</button>
+              <button type="button" data-val="stairs">Stairs only</button>
+              <button type="button" data-val="loading-dock">Loading dock</button>
+              <button type="button" data-val="parking-permit">Permit needed</button>
+            </div>
+          </div>
+
+          <!-- STEP: Small move access -->
+          <div class="fs" data-sid="move-access">
+            <h3>Any access issues?</h3>
+            <p class="hint">Select all that apply, or just continue.</p>
+            <div class="option-grid" data-key="access" data-mode="multi">
+              <button type="button" data-val="stairs">Stairs</button>
+              <button type="button" data-val="elevator">Elevator</button>
+              <button type="button" data-val="long-carry">Long carry</button>
+              <button type="button" data-val="difficult-parking">Tight parking</button>
+            </div>
+          </div>
+
+          <!-- STEP: Special items + packing -->
+          <div class="fs" data-sid="special-packing">
+            <h3>Special items or packing?</h3>
+            <p class="hint">Select any that apply, or just continue.</p>
+            <div class="option-grid" data-key="specialItems" data-mode="multi">
+              <button type="button" data-val="piano">Piano</button>
+              <button type="button" data-val="safe">Safe / heavy</button>
+              <button type="button" data-val="gym-equipment">Gym equipment</button>
+              <button type="button" data-val="oversized-sectional">Large furniture</button>
+            </div>
+            <label><span class="lbl">Need packing?</span>
+              <select id="inp-packing">
+                <option value="none">No packing</option>
+                <option value="partial">Partial</option>
+                <option value="full">Full packing</option>
+              </select>
+            </label>
+          </div>
+
+          <!-- STEP: Office items -->
+          <div class="fs" data-sid="office-items">
+            <h3>What's being moved?</h3>
+            <p class="hint">Select all that apply.</p>
+            <div class="option-grid" data-key="specialItems" data-mode="multi">
+              <button type="button" data-val="desks">🖥 Desks & chairs</button>
+              <button type="button" data-val="filing">🗄 Filing cabinets</button>
+              <button type="button" data-val="electronics">💻 Monitors & tech</button>
+              <button type="button" data-val="misc-office">📦 Misc office</button>
+            </div>
+          </div>
+
+          <!-- STEP: Contact info -->
+          <div class="fs" data-sid="contact">
+            <h3>Where should we send your quote?</h3>
+            <p class="hint">No spam. Just your personalized quote.</p>
+            <label><span class="lbl">Name</span><input type="text" id="inp-name" placeholder="Full name" autocomplete="name"/></label>
+            <label><span class="lbl">Phone</span><input type="tel" id="inp-phone" placeholder="(213) 866-4956" autocomplete="tel"/></label>
+            <label><span class="lbl">Email</span><input type="email" id="inp-email" placeholder="Optional" autocomplete="email"/></label>
+          </div>
+
+          <!-- NAV -->
+          <div class="funnel-nav">
+            <button type="button" id="btn-back" class="btn btn-ghost" disabled>Back</button>
+            <button type="button" id="btn-next" class="btn btn-coastal">Continue</button>
+            <button type="button" id="btn-submit" class="btn btn-dark btn-lg hidden">See My Quote</button>
+          </div>
+          <p id="err" class="form-error"></p>
+        </div>
+
+        <!-- RESULT -->
+        <div id="result" class="result-card hidden">
+          <div class="result-header">
+            <div class="result-check"><svg width="18" height="18" fill="none" stroke="#fff" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3 class="result-title" id="r-greeting">You're all set.</h3>
+            <p class="result-sub" id="r-sub">Your estimated flat-rate range:</p>
+          </div>
+          <div class="result-box">
+            <div class="result-badge" id="r-tier">Standard Move</div>
+            <div class="result-range" id="r-range">$600 – $900</div>
+            <div class="result-note">Based on your answers · Final price after review</div>
+          </div>
+          <div class="result-video" id="r-video">
+            <div class="result-video-icon" id="r-video-icon">📹</div>
+            <div class="result-video-copy">
+              <strong id="r-video-title">Want your exact price? Send a walkthrough.</strong>
+              <p id="r-video-text">A 30-second video of your space gets you your final flat rate. Most replies within 15 minutes.</p>
+            </div>
+          </div>
+          <div class="result-btns">
+            <a class="btn btn-dark btn-lg" id="r-cta1" href="sms:+12138664956&body=Hi, here's my walkthrough video for Easy Day Moving:">📱 Text My Walkthrough Video</a>
+            <a class="btn btn-soft" href="sms:+12138664956&body=Hi, I just got my quote from Easy Day Moving. I'd like to book.">💬 Text to Book Directly</a>
+            <a class="btn btn-ghost" href="tel:+12138664956">Call (213) 866-4956</a>
+          </div>
+          <div class="result-urgency" id="r-urgency">⚡ Most customers who text a walkthrough get booked within 24 hours</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTIONS (unchanged) -->
+<section id="services" class="section section-alt">
+  <div class="container">
+    <div class="s-head reveal"><div class="s-label">Services</div><h2>Three ways to lighten your load.</h2><p>One team, flat-rate pricing, across SoCal.</p></div>
+    <div class="svc-grid">
+      <div class="svc-card reveal reveal-delay-1"><span class="svc-icon">🚚</span><h3>Local Moving</h3><p>Studios, 1BR & 2BR apartments and small houses across OC and LA. Flat-rate, on-time.</p></div>
+      <div class="svc-card reveal reveal-delay-2"><span class="svc-icon">📦</span><h3>Packing</h3><p>Full or partial. We bring supplies and handle everything — kitchen, fragile, all of it.</p></div>
+      <div class="svc-card reveal reveal-delay-3"><span class="svc-icon">🗑️</span><h3>Junk Removal</h3><p>Furniture, appliances, garage cleanouts. We haul it. Fast same-week service.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how" class="section">
+  <div class="container">
+    <div class="s-head reveal" style="text-align:center;margin-left:auto;margin-right:auto;"><div class="s-label">Process</div><h2>Simple by design.</h2></div>
+    <div class="steps-row">
+      <div class="step-item reveal reveal-delay-1"><span class="step-num">1</span><h3>Tell us what you need</h3><p>We customize the questions based on your service.</p></div>
+      <div class="step-item reveal reveal-delay-2"><span class="step-num">2</span><h3>Get your flat rate</h3><p>See your price range instantly. No pressure.</p></div>
+      <div class="step-item reveal reveal-delay-3"><span class="step-num">3</span><h3>Confirm by text</h3><p>Send a walkthrough or just text. Same-day reply.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="s-head reveal"><div class="s-label">Included</div><h2>Standard with every job.</h2></div>
+    <div class="inc-grid">
+      <div class="inc-item reveal reveal-delay-1"><h4>Flat-rate pricing</h4><p>Quoted = final. No hourly charges.</p></div>
+      <div class="inc-item reveal reveal-delay-2"><h4>Furniture protection</h4><p>Blankets, padding, wrap on everything.</p></div>
+      <div class="inc-item reveal reveal-delay-3"><h4>Text updates</h4><p>Confirmations, ETAs, status by text.</p></div>
+      <div class="inc-item reveal reveal-delay-4"><h4>On-time crews</h4><p>Local SoCal teams. On time, every time.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="s-head reveal"><div class="s-label">Reviews</div><h2>What customers say.</h2></div>
+    <div class="test-row">
+      <div class="test-card reveal reveal-delay-1"><p class="test-quote">"Texted a video, got a flat quote in 10 minutes. Move day was flawless. Best movers in OC."</p><div class="test-author">Sarah K.</div><div class="test-meta">1BR · Irvine → Newport Beach</div></div>
+      <div class="test-card reveal reveal-delay-2"><p class="test-quote">"No hidden fees. On time. Wrapped everything. The flat rate was exactly what I paid."</p><div class="test-author">Marcus T.</div><div class="test-meta">2BR · Anaheim → Long Beach</div></div>
+      <div class="test-card reveal reveal-delay-3"><p class="test-quote">"Hauled away a garage of junk and packed us for our move. One team, one call."</p><div class="test-author">Jessica & Dan L.</div><div class="test-meta">Junk + packing · Garden Grove</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="areas" class="section section-alt">
+  <div class="container">
+    <div class="s-head reveal"><div class="s-label">Coverage</div><h2>Orange County & Los Angeles.</h2><p>Local crews across SoCal.</p></div>
+    <div class="area-tags reveal"><span>Anaheim</span><span>Irvine</span><span>Santa Ana</span><span>Fullerton</span><span>Garden Grove</span><span>Costa Mesa</span><span>Huntington Beach</span><span>Newport Beach</span><span>Long Beach</span><span>Torrance</span><span>Pasadena</span><span>Los Angeles</span><span>Glendale</span><span>Burbank</span><span>Santa Monica</span><span>Culver City</span><span>West Hollywood</span><span>Tustin</span><span>Mission Viejo</span><span>Lake Forest</span></div>
+  </div>
+</section>
+
+<section id="faq" class="section">
+  <div class="container">
+    <div class="s-head reveal"><div class="s-label">FAQ</div><h2>Common questions.</h2></div>
+    <div class="faq reveal">
+      <details><summary>What services do you offer?</summary><p>Local moving (studios to 2BR), packing, and junk removal. All flat-rate, all SoCal.</p></details>
+      <details><summary>What size moves do you handle?</summary><p>Studios up to 2-bedroom apartments and small houses, plus small offices. For larger homes, text us.</p></details>
+      <details><summary>What does flat-rate mean?</summary><p>The price we quote is the price you pay. No hourly charges, no surprises.</p></details>
+      <details><summary>How fast can I get a quote?</summary><p>Under 2 minutes. Text a walkthrough for your exact flat rate — most replies within 15 min.</p></details>
+      <details><summary>Can I combine services?</summary><p>Yes. Many customers book moving + packing, or moving + junk removal together.</p></details>
+      <details><summary>Are you licensed?</summary><p>Fully licensed and insured in California.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2 class="reveal">Ready to get started?</h2>
+    <p class="reveal reveal-delay-1">Flat-rate quote in 2 minutes. No obligation.</p>
+    <div class="cta-row reveal reveal-delay-2">
+      <a class="btn btn-dark btn-lg" href="#quote">Get Your Quote</a>
+      <a class="btn btn-outline btn-lg" href="sms:+12138664956&body=Hi, I'd like a quote.">Text Us</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© 2025 Easy Day Moving · Licensed & insured in California</p>
+    <div class="footer-links"><a href="tel:+12138664956">(213) 866-4956</a><a href="sms:+12138664956">Text</a></div>
+  </div>
+</footer>
+
+<div class="mobile-sticky">
+  <a class="m-primary" href="#quote">Get Quote</a>
+  <a class="m-secondary" href="sms:+12138664956&body=Hi, I'd like a quote.">Text Us</a>
+</div>
+
+<script src="/script.js"></script>
+</body>
+</html>
