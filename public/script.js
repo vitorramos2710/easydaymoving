@@ -266,7 +266,8 @@
         vText.textContent = 'A 30-second video helps us plan crew and equipment.';
         urg.textContent = '⚡ Weekend office moves available';
       }
-
+// Google Sheets
+      try { var _f = new URLSearchParams(); _f.append('name',data.name); _f.append('phone',data.phone); _f.append('email',data.email); _f.append('moveType',data.moveType); _f.append('moveSize',data.moveSize); _f.append('fromAddress',data.fromAddress); _f.append('toAddress',data.toAddress); _f.append('moveDate',data.moveDate); _f.append('access',(data.access||[]).join(', ')); _f.append('specialItems',(data.specialItems||[]).join(', ')); _f.append('packing',data.packing); _f.append('contactPreference',data.contactPreference); _f.append('tier',json.tier); _f.append('range',json.range); fetch('https://script.google.com/macros/s/AKfycbzB-mEzEGUwHlM5r31UoCepeeil0diCCYsklPal6_MTPgMiamZqDMvgYfUB9rLewJ9GcA/exec',{method:'POST',mode:'no-cors',body:_f}); } catch(e) {}
       resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
       // Google Ads conversion
